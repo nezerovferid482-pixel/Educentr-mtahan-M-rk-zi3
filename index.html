@@ -2,10 +2,10 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Educentr Təhsil Mərkəzi İmtahan Nəticəsi</title>
+<title>Educentr - Admin Panel</title>
 <style>
 body {
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  background: linear-gradient(135deg, #0a9f4c, #028a30);
   font-family: Arial, sans-serif;
   display: flex; justify-content: center; align-items: center;
   height: 100vh; color: #fff;
@@ -20,53 +20,51 @@ input {
   border: 1px solid #ccc; border-radius: 5px;
 }
 button {
-  background: #007bff; color: #fff; padding: 10px 15px;
+  background: #028a30; color: #fff; padding: 10px 15px;
   border: none; border-radius: 5px; cursor: pointer;
   width: 100%; font-size: 16px;
 }
-button:hover { background: #0a80ff; }
-table {
-  width: 100%; border-collapse: collapse; margin-top: 10px;
-}
-th, td {
-  border: 1px solid #ddd; padding: 8px; text-align: center;
-}
+button:hover { background: #06b342; }
 </style>
 </head>
 <body>
   <div class="box">
-    <h2>Educentr Təhsil Mərkəzi İmtahan Nəticəsi</h2>
-    <input id="searchID" placeholder="Şagird ID">
-    <button onclick="search()">Axtar</button>
-    <div id="result"></div>
+    <h2>Educentr - Admin Panel</h2>
+    <input id="id" placeholder="ID">
+    <input id="ad" placeholder="Ad">
+    <input id="soyad" placeholder="Soyad">
+    <input id="sinif" placeholder="Sinif">
+    <input id="bolme" placeholder="Bölmə">
+    <input id="imtahan" placeholder="İmtahan növü">
+    <input id="fenn" placeholder="Fənn">
+    <input id="duz" placeholder="Düz">
+    <input id="sehv" placeholder="Səhv">
+    <input id="bos" placeholder="Boş">
+    <button onclick="saveData()">Əlavə Et</button>
+    <p id="msg"></p>
   </div>
 
 <script>
-function search() {
-  const id = document.getElementById("searchID").value.trim();
-  const data = JSON.parse(localStorage.getItem("imtahanlar")) || [];
-  const results = data.filter(x => x.id === id);
+function saveData() {
+  const data = {
+    id: document.getElementById("id").value,
+    ad: document.getElementById("ad").value,
+    soyad: document.getElementById("soyad").value,
+    sinif: document.getElementById("sinif").value,
+    bolme: document.getElementById("bolme").value,
+    imtahan: document.getElementById("imtahan").value,
+    fenn: document.getElementById("fenn").value,
+    duz: document.getElementById("duz").value,
+    sehv: document.getElementById("sehv").value,
+    bos: document.getElementById("bos").value,
+  };
 
-  if (results.length === 0) {
-    document.getElementById("result").innerHTML = "<p style='color:red'>Nəticə tapılmadı!</p>";
-    return;
-  }
+  let all = JSON.parse(localStorage.getItem("imtahanlar")) || [];
+  all.push(data);
+  localStorage.setItem("imtahanlar", JSON.stringify(all));
 
-  let html = "<table><tr><th>Ad</th><th>Soyad</th><th>Sinif</th><th>Fənn</th><th>Düz</th><th>Səhv</th><th>Boş</th></tr>";
-  results.forEach(r => {
-    html += `<tr>
-      <td>${r.ad}</td>
-      <td>${r.soyad}</td>
-      <td>${r.sinif}</td>
-      <td>${r.fenn}</td>
-      <td>${r.duz}</td>
-      <td>${r.sehv}</td>
-      <td>${r.bos}</td>
-    </tr>`;
-  });
-  html += "</table>";
-
-  document.getElementById("result").innerHTML = html;
+  document.getElementById("msg").innerHTML = "✅ Uğurla əlavə olundu!";
+  document.querySelectorAll("input").forEach(i => i.value = "");
 }
 </script>
 </body>
